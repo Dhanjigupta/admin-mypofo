@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html class="transition-navbar-scroll top-navbar-xlarge bottom-footer" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> <%= title %> </title>
+  <%- include('style') %>
+</head>
+<body>
+  <!-- Navbar start -->
+  <%- include('navbar') %>
+  <!-- Navbar end -->
+
+  <div class="parallax page-section bg-blue-300">
+    <div class="container parallax-layer" data-opacity="true">
+      <div class="media media-grid v-middle">
+       <div class="media-body">
+          <h1 class="text-white text-display-1 margin-v-0"><%= title %></h1>
+       </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="page-section">
+      <div class="row">
+          <div class="col-md-12">
+             <div class="panel panel-default">
+                <div class="media v-middle">
+                    <div class="media-left">
+                        <div class="bg-green-400 text-white">
+                            <div class="panel-body">
+                                <i class="fa fa-credit-card fa-fw fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="media-body">
+                       <h3>Welcome to Panel <% if(loginUser){ %> <%= loginUser  %> <% } %></h3>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+             <div class="panel panel-default paper-shadow" data-z="0.5">
+                <div class="panel-heading">
+                  <div class="media v-middle">
+                    <div class="media-body">
+                      <h4 class="text-headline margin-none"> Notification</h4>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-body">
+                   <div class="alert alert-info">
+                     <strong> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </strong> 
+                   </div>
+                </div>
+            </div>  
+         </div>
+
+      </div>
+    </div>
+  </div>
+
+<!-- Footer start -->
+   <%- include('footer') %>
+<!-- Footer end -->
+</body>
+</html>

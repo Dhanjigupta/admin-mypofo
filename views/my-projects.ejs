@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html class="transition-navbar-scroll top-navbar-xlarge bottom-footer" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> <%= title %> </title>
+  <%- include('style'); %>
+  <link href="/stylesheets/sweetalert.css" rel="stylesheet"/>
+</head>
+<body>
+  <%- include('navbar'); %>
+ <div class="parallax page-section bg-blue-300">
+    <div class="container parallax-layer" data-opacity="true">
+      <div class="media media-grid v-middle">
+        <div class="media-body">
+          <h3 class="text-display-1 text-white margin-none"> <%= title %> </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="page-section">
+      <form method="post" name="MainForm" id="mainForm">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="panel panel-default">
+                 <ul class="list-group">
+                   <li class="list-group-item">
+                    <div class="media v-middle">
+                      <div class="media-body">
+                        <h4 class="text-headline margin-none">Projects</h4>
+                        <p class="text-subhead text-light">My Projects Details</p>
+                      </div>
+                      <div class="media-right">
+                        <a class="btn btn-primary btn-sm btn-flat" href="/add-project" ><i class="fa fa-plus-circle"></i> Add Project</a> 
+                      </div>
+                     </div>
+                    </li>
+                  </ul>
+
+                  <div class="panel-body paper-shadow relative" data-z="0.5">
+                    <div class="row"> 
+
+                      <div class="col-md-5">
+                        <div class="form-group">
+                          <input type="text" class="form-control input-sm" name="Search" id="search"  placeholder="Search by Project ...." style="border: 1px solid #5c7399; border-left: 5px solid #5c7399; background-color: #fff;" /> 
+                        </div>
+                      </div>
+                    
+                   	  <div class="col-md-3">
+				                <button type="button" id="btn-search" class="btn btn-success btn-sm"><i class="fa fa-search"></i> &nbsp Search</button>
+      	              </div> 
+                      <br/>
+                       
+                       <!-- Grid Start -->
+                        <div id="grid"></div> 
+                        <input type="hidden" name="Limit" id="limit" value="<%= perPageLimit %>" />             
+                        <input type="hidden" name="Page" id="page" value="<%= current %>"  />   
+                       <!-- Grid End -->
+
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+     </form> 
+    </div>
+  </div>
+<%- include('footer'); %> 
+<script src="/jquery/projects.js"></script>
+<script src="/js/sweetalert.min.js"></script>
+</body>
+</html>

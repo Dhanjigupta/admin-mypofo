@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="transition-navbar-scroll top-navbar-xlarge bottom-footer" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> <%= title %> </title>
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link href="stylesheets/vendor/all.css" rel="stylesheet">
+  <link href="stylesheets/app.css" rel="stylesheet">
+</head>
+<body class="login">
+    <div id="content">
+        <div class="container-fluid">
+        <div class="lock-container">
+        <div class="panel panel-default text-center paper-shadow" data-z="0.5">
+            <h1 class="text-display-1 text-center margin-bottom-none">Register</h1>
+            <center><i class="fa fa-user fa-4x" style="margin-top:15px;"></i></center>
+            <div class="panel-body">
+            <% if(msg !=''){ %>
+              <div class="alert alert-info alert-dismissible">
+                <b> <%= msg %> </b>
+              </div>   
+            <% } %>
+            <% if(errors !=''){ %>
+                <div class="alert alert-danger alert-dismissible">
+                    <b> <%= errors.UserName.msg %> </b>
+                </div>   
+            <% } %>      
+            <form method="post" action="/signup" id="signUpForm">
+                <div class="form-group">
+                    <div class="form-control-material">
+                        <input class="form-control used" required id="userName" name="UserName" type="text" placeholder="Enter User Name">
+                        <label for="userName">User Name</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-control-material">
+                        <input class="form-control used" required id="email" name="Email" type="email" placeholder="Enter Email">
+                        <label for="email">Email</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-control-material">
+                        <input class="form-control used" required id="password" name="Password" type="password" placeholder="Enter Password">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-control-material">
+                        <input class="form-control used" required id="confirmPassword" name="ConfirmPassword" type="password" placeholder="Enter Confirm Password">
+                        <label for="confirmPassword">Confirm Password</label>
+                    </div>
+                </div>
+                <input type="submit" value="Sign Up" class="btn btn-primary"/>
+                <br/><br/>Already have an account?<a href="/"> Login Here</a>
+            </form>
+            </div>
+        </div>
+     </div>
+   </div>
+ </div>
+ <footer class="footer">
+    <strong>Design & Developed by <a href="#" target="_blank">Dhananjay </a> 
+ </footer>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!-- Style start -->
+<link href="/stylesheets/vendor/all.css" rel="stylesheet">
+<link href="/stylesheets/app/app.css" rel="stylesheet">
+<link href="/stylesheets/my-style.css" rel="stylesheet">
+<script>
+  var colors = {
+    "body-bg": "#f6f6f6"
+  };
+  var config = {
+    theme: "html",
+    skins: {
+      "default": {
+        "primary-color": "#42a5f5"
+      }
+    }
+  };
+</script>
+<script type="text/javascript">
+  function logout(){
+   bootbox.confirm("<p>Are you sure you want to logout ?", function(result) {
+    if(result==true){ 
+     window.location="/logout";
+    }
+   });
+  }
+</script>
+<script src="/js/vendor/all.js"></script>
+<script src="/js/app/app.js"></script>

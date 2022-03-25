@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html class="transition-navbar-scroll top-navbar-xlarge bottom-footer" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> <%= title %> </title>
+  <%- include('style'); %>
+</head>
+<body>
+  <%- include('navbar'); %>
+   <div class="parallax page-section bg-blue-300">
+    <div class="container parallax-layer" data-opacity="true">
+      <div class="media media-grid v-middle">
+        <div class="media-body">
+          <h3 class="text-display-1 text-white margin-none"> <%= title %> </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="page-section">
+	      <div class="row">
+            <div class="col-md-12 padd-lft0 padd-rgt0">
+                <div class="panel panel-default">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                          <div class="media v-middle">
+                           <div class="media-body">
+                            <h4 class="text-headline margin-none">Blog</h4>
+                            <p class="text-subhead text-light">Edit Blog details</p>
+                           </div>
+                            <div class="media-right">
+                              <a class="btn btn-success btn-sm btn-flat" href="/my-blogs"><i class="fa fa-info-circle"></i> View Blogs</a> 
+                            </div> 
+                          </div>
+                        </li>
+                    </ul>
+                    <div class="panel-body buttons-spacing-vertical">
+                          <form method="post" name="MainForm" id="mainForm" enctype='multipart/form-data' >
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label for="blogTitle">Blog Title</label>
+                                          <input type="text" value="<%= records.blog_title %>" class="form-control text-capitalize" id="blogTitle" name="BlogTitle"  style="border: 1px solid #5c7399; border-left: 5px solid #5c7399; background-color: #fff;"  />
+                                        </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                        <div class="form-group">
+                                          <label for="blogCategory">Blog Category</label>
+                                           <select id="blogCategory" class="select2-chosen" name="BlogCategory" style="border: 1px solid #5c7399; border-left: 5px solid #5c7399; background-color: #fff; width:100%;" >
+                                            <option value="-1">Select Category:</option>
+                                            <% if(record.length > 0){
+                                              record.forEach(function(row){
+                                              %>
+                                             <option value="<%= row.category %>" <% if(row.category==records.blog_category){ %> selected <% } %>><%= row.category %></option>
+                                             <%  }) } %>
+                                            </select>
+                                         </div> 
+                                     </div>
+                                     <div class="col-md-3">
+                                       <div class="form-group">
+                                        <label for="blogImg">Blog Image</label>
+                                        <input type="file" name="BlogImg" id="blogImg"/>
+                                        </div>
+                                      </div> 
+
+                                      <div class="col-md-12">
+                                        <div class="form-group">
+                                        <label for="blogDetails">Blog Description</label>
+                                        <textarea name="blogDetails" id="blogDetails" rows="8" ><%= records.blog_description %></textarea>
+                                        </div>
+                                       </div> 
+                                       <input type="hidden" name="EditId" id="editId" value="<%= id %>">
+                                       <div class="col-md-12">
+                                         <div class="form-group">
+                                          <div class="text-right">
+                                            <button type="reset" class="btn btn-danger"><span>Reset</span></button>  
+                                            <button type="button" id="btnEdit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+                                          </div>
+                                         </div>
+                                      </div>
+
+                                  </div>
+                                </form>  
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+            </div>
+  </div>
+  <%- include('footer'); %> 
+  <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
+  <script src="/js/bootstrap-filestyle.js"></script>
+  <script src="/jquery/blogs.js"></script>
+  <script>
+    CKEDITOR.replace( 'blogDetails' );
+    $('#blogImg').filestyle({
+      buttonBefore : true,
+      buttonName : 'btn-danger'
+    });
+  </script>   
+</body>
+</html>

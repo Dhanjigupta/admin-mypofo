@@ -1,0 +1,126 @@
+<div class="col-md-12">
+ <div id="no-more-tables">
+      <table class="col-md-12 table-bordered table-striped table-condensed cf">
+      <thead class="cf">
+        <tr style="background-color: #425563; color:#fff;">
+          <th style="width:5%;" class="text-center">#</th>
+          <th style="width:18%;">Blog Title</th>
+          <th style="width:15%;">Blog Category</th>
+          <th style="width:23%;">Blog Description</th>
+          <th style="width:10%">Blog Image</th>
+          <th style="width:10%;">Posted Date</th>
+          <th style="width:8%;">Status</th>
+          <th style="width:10%;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      <% if(records.length > 0){
+        start_from = (current-1) * perPageLimit;
+        i= start_from;
+        start=1;
+        records.forEach(function(row,index){
+          if(row.blog_image){
+            image= row.blog_image;
+          }else{
+            image= "no-photo.jpg";
+          }
+       %>
+       <tr>
+        <td class='text-center' data-title='Sr. No.'> <%= (i+start) %> </td>
+        <td data-title='Blog Title' class='text-black'> <%= row.blog_title %> </td>
+        <td data-title='Blog Category'> <%= row.blog_category %> </td>
+        <td data-title='Blog Description'><%- row.blog_description.length > 80 ? row.blog_description.substring(0,80).concat('...'): row.blog_description.substring(0,80) %></td>
+        <td data-title='Blog Image'> <img src="/uploads/<%= image %>" style="width:95px; height:60px;"/></td>
+        <td data-title='Posted Date'> <%= moment(row.createdOn).format( 'DD-MMM-YYYY') %> </td>
+        <td data-title='Status'>  
+          <% if(row.blog_status=="Disable") { %>
+             <span class='btn btn-xs btn-danger' onclick='Enable("<%= row._id %>")'>Disabled</span>
+          <%  } else {  %> 
+             <span class='btn btn-xs btn-success' onclick='Disable("<%= row._id %>")'>Enabled</span> 
+          <%  } %>  
+        </td>
+        <td data-title='Action'>
+          <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal<%= row._id %>" data-placement='top'
+          title='View'><i class='fa fa-info-circle'></i></button>
+          <a href='/edit-blog/<%= row._id %>' class='btn btn-warning btn-xs' data-toggle='tooltip' data-placement='top'
+          title='Edit'><i class='fa fa-edit'></i> 
+          </a>
+          <a href='javascript:deleteBlog("<%= row._id %>")' class='btn btn-danger btn-xs' data-toggle='tooltip' data-placement='top'
+          title='Delete'><i class='fa fa-trash'></i> 
+          </a>
+         </td>
+        </tr>
+        
+        <!-- Modal Start-->
+        <div class="modal fade" id="myModal<%= row._id %>" role="dialog">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><%= row.blog_title %></h4>
+              </div>
+              <div class="modal-body" style="min-height:300px; overflow:auto">
+                  <%- row.blog_description %>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal End-->
+        <% i++ }) } lastRec=i ; %>
+      </tbody>
+    </table>
+  </div>
+  
+  <% if(records.length > 0){  %>
+  <!-- Pagination Start -->
+  <% if (pages > 0) { %>
+    <ul class="pagination" style="padding-left:0px; margin-bottom:0px; background-color:#fff;">
+      <% if (current == 1) { %>
+          <li class="disabled"><a>First</a></li>
+      <% } else { %>
+          <li><a href="/my-blogs/1">First</a></li>
+      <% } %>
+      <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+      <% if (i !== 1) { %>
+          <li class="disabled"><a>...</a></li>
+      <% } %>
+      <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+          <% if (i == current) { %>
+              <li class="active"><a><%= i %></a></li>
+          <% } else { %>
+              <li><a href="/my-blogs/<%= i %>"><%= i %></a></li>
+          <% } %>
+          <% if (i == Number(current) + 4 && i < pages) { %>
+              <li class="disabled"><a>...</a></li>
+          <% } %>
+      <% } %>
+      <% if (current == pages) { %>
+          <li class="disabled"><a>Last</a></li>
+      <% } else { %>
+          <li><a href="/my-blogs/<%= pages %>">Last</a></li>
+      <% } %>
+    </ul>
+
+    <div>
+      Showing
+      <strong><%= start_from+1 %> </strong>&nbsp;to&nbsp;
+      <strong><%= lastRec %></strong>&nbsp;of&nbsp;
+      <strong><%= total %></strong>&nbsp;records
+    </div>
+   <% } %>
+   <!-- Pagination End -->
+
+
+   <% } else { %> 
+  <div class='col-md-12' style='padding:10px 0px 0px 0px;'> 
+   <div class="alert alert-info" style='width:100%; text-align:center;'>
+     <strong>No records found !</strong>
+    </div>
+  </div>  
+   <% } %>
+
+</div>  

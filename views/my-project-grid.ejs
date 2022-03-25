@@ -1,0 +1,104 @@
+<div class="col-md-12">
+ <div id="no-more-tables">
+      <table class="col-md-12 table-bordered table-striped table-condensed cf">
+      <thead class="cf">
+        <tr style="background-color: #425563; color:#fff;">
+          <th style="width:5%;" class="text-center">#</th>
+          <th style="width:25%;">Project</th>
+          <th style="width:20%;">Project URL</th>
+          <th style="width:20%"> Project Snapshot</th>
+          <th style="width:10%;" class="text-center">Created Date</th>
+          <th style="width:10%;" class="text-center">Status</th>
+          <th style="width:10%;" class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+     
+      <% if(records.length > 0){
+        start_from = (current-1) * perPageLimit;
+        i= start_from;
+        start=1;
+        records.forEach(function(row,index){
+          if(row.porject_image){
+            image= row.porject_image;
+          }else{
+            image= "no-photo.jpg";
+          }
+       %>
+       <tr>
+        <td class='text-center' data-title='Sr. No.'> <%= (i+start) %> </td>
+        <td data-title='Project' class='text-black'> <%= row.project_title %> </td>
+        <td data-title='Project Url'> <%= row.project_url %> </td>
+        <td data-title='Snapshot'> <img src="/uploads/<%= image %>" style="width:100%; height:150px;"/></td>
+        <td data-title='Created Date'> <%= moment(row.createdOn).format( 'DD-MMM-YYYY') %> </td>
+        <td data-title='Status'>  
+          <% if(row.project_status=="Disable") { %>
+             <span class='btn btn-xs btn-danger' onclick='EnableProject("<%= row._id %>")'>Disabled</span>
+          <%  } else {  %> 
+             <span class='btn btn-xs btn-success' onclick='DisableProject("<%= row._id %>")'>Enabled</span> 
+          <%  } %>  
+        </td>
+        <td data-title='Action'>
+         <a href='/edit-project/<%= row._id %>' class='btn btn-warning btn-xs' data-toggle='tooltip' data-placement='top'
+          title='Edit'><i class='fa fa-edit'></i> 
+          </a>
+          <a href='javascript:deleteProject("<%= row._id %>")' class='btn btn-danger btn-xs' data-toggle='tooltip' data-placement='top'
+          title='Delete'><i class='fa fa-trash'></i> 
+          </a>
+         </td>
+        </tr>
+        
+        <% i++ }) } lastRec=i ; %>
+      </tbody>
+    </table>
+  </div>
+  
+  <% if(records.length > 0){  %>
+  <!-- Pagination Start -->
+  <% if (pages > 0) { %>
+    <ul class="pagination" style="padding-left:0px; margin-bottom:0px; background-color:#fff;">
+      <% if (current == 1) { %>
+          <li class="disabled"><a>First</a></li>
+      <% } else { %>
+          <li><a href="/my-projects/1">First</a></li>
+      <% } %>
+      <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+      <% if (i !== 1) { %>
+          <li class="disabled"><a>...</a></li>
+      <% } %>
+      <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+          <% if (i == current) { %>
+              <li class="active"><a><%= i %></a></li>
+          <% } else { %>
+              <li><a href="/my-projects/<%= i %>"><%= i %></a></li>
+          <% } %>
+          <% if (i == Number(current) + 4 && i < pages) { %>
+              <li class="disabled"><a>...</a></li>
+          <% } %>
+      <% } %>
+      <% if (current == pages) { %>
+          <li class="disabled"><a>Last</a></li>
+      <% } else { %>
+          <li><a href="/my-projects/<%= pages %>">Last</a></li>
+      <% } %>
+    </ul>
+
+    <div>
+      Showing
+      <strong><%= start_from+1 %> </strong>&nbsp;to&nbsp;
+      <strong><%= lastRec %></strong>&nbsp;of&nbsp;
+      <strong><%= total %></strong>&nbsp;records
+    </div>
+   <% } %>
+   <!-- Pagination End -->
+
+
+   <% } else { %> 
+  <div class='col-md-12' style='padding:10px 0px 0px 0px;'> 
+   <div class="alert alert-info" style='width:100%; text-align:center;'>
+     <strong>No records found !</strong>
+    </div>
+  </div>  
+   <% } %>
+
+</div>  

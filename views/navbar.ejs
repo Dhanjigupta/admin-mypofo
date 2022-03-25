@@ -1,0 +1,55 @@
+<div class="navbar navbar-default navbar-fixed-top navbar-size-large navbar-size-xlarge paper-shadow" data-z="0" data-animated role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div class="navbar-brand navbar-brand-logo">
+          <a href="/dashboard">
+            <h1 style="color:#ffc13e">CMS</h1>
+          </a>
+        </div>
+      </div>
+
+      <div class="collapse navbar-collapse" id="main-nav">
+        <ul class="nav navbar-nav navbar-nav-margin-left">
+          <li class="<%if (title == 'Dashboard') { %> active <% } %>">
+            <a href="/dashboard"><i class="fa fa-tachometer"> Dashboard </i>  </a>
+          </li>
+
+          <li class="<%if (title == 'About Me') { %> active <% } %>">
+            <a href="/about-me"><i class="fa fa-user"> About Me </i>  </a>
+          </li>
+          
+          <li class="<%if (title == 'My Blogs') { %> active <% } %>">
+            <a href="/my-blogs"><i class="fa fa-eye"> My Blogs </i>  </a>
+          </li>
+          
+          <li class="<%if (title == 'My Projects') { %> active <% } %>">
+            <a href="/my-projects"><i class="fa fa-briefcase"> My Projects </i>  </a>
+          </li>
+
+        </ul>
+        <div class="navbar-right">
+            <ul class="nav navbar-nav navbar-nav-bordered navbar-nav-margin-right">
+             <li class="dropdown user">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Settings <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+               <li><a href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+               <li><a href="/about-me"><i class="fa fa-user"></i> About Me</a></li>
+               <li><a href="/change-password"><i class="fa fa-key"></i> Change Password </a></li>
+              </ul>
+             </li>
+            </ul>
+            <a href="javascript:logout();" class="navbar-btn btn btn-theme" style="color:#fff">
+            <i class="fa fa-sign-out"></i> Logout
+           </a>
+        </div>
+      </div>
+    </div>
+  </div>
