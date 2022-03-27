@@ -20,18 +20,14 @@
         i= start_from;
         start=1;
         records.forEach(function(row,index){
-          if(row.blog_image){
-            image= row.blog_image;
-          }else{
-            image= "no-photo.jpg";
-          }
+          
        %>
        <tr>
         <td class='text-center' data-title='Sr. No.'> <%= (i+start) %> </td>
         <td data-title='Blog Title' class='text-black'> <%= row.blog_title %> </td>
         <td data-title='Blog Category'> <%= row.blog_category %> </td>
         <td data-title='Blog Description'><%- row.blog_description.length > 80 ? row.blog_description.substring(0,80).concat('...'): row.blog_description.substring(0,80) %></td>
-        <td data-title='Blog Image'> <img src="/uploads/<%= image %>" style="width:95px; height:60px;"/></td>
+        <td data-title='Blog Image'> <img src="/uploads/<%= row.blog_image %>" style="width:95px; height:60px;"/></td>
         <td data-title='Posted Date'> <%= moment(row.createdOn).format( 'DD-MMM-YYYY') %> </td>
         <td data-title='Status'>  
           <% if(row.blog_status=="Disable") { %>

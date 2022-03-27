@@ -24,7 +24,13 @@ function checkLoginUser(req,res,next){
 
 /* APIs Get All Projects */
 router.get('/my-all-projects',function(req, res, next){
-  projectModel.find((err, docs) => {
+    var getAllProject= projectModel.find({
+      "$and":[
+        {"project_status":"Enable"},
+      ]
+    });
+    getAllProject.sort({ _id : "-1"})
+    .exec(function(err,docs){
     if (err) {
       return res.json({
         error: true,

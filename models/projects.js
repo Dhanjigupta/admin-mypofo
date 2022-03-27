@@ -14,8 +14,8 @@ const projectSchema = new mongoose.Schema({
     },
     porject_image:{
         type: String,
-        required: true
-        //default: 'no-photo.jpg'
+        required: true,
+        default: 'no-photo.jpg'
     },
     project_status:{
         type:String,
