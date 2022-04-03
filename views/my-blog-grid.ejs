@@ -27,7 +27,7 @@
         <td data-title='Blog Title' class='text-black'> <%= row.blog_title %> </td>
         <td data-title='Blog Category'> <%= row.blog_category %> </td>
         <td data-title='Blog Description'><%- row.blog_description.length > 80 ? row.blog_description.substring(0,80).concat('...'): row.blog_description.substring(0,80) %></td>
-        <td data-title='Blog Image'> <img src="/uploads/<%= row.blog_image %>" style="width:95px; height:60px;"/></td>
+        <td data-title='Blog Image'> <img src="<%= row.blog_image %>" style="width:95px; height:60px;"/></td>
         <td data-title='Posted Date'> <%= moment(row.createdOn).format( 'DD-MMM-YYYY') %> </td>
         <td data-title='Status'>  
           <% if(row.blog_status=="Disable") { %>
@@ -56,7 +56,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"><%= row.blog_title %></h4>
               </div>
-              <div class="modal-body" style="min-height:300px; overflow:auto">
+              <div class="modal-body" style="min-height:300px; max-height:450px; overflow:auto">
                   <%- row.blog_description %>
               </div>
               <div class="modal-footer">

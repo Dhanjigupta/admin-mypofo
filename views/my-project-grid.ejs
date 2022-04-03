@@ -19,13 +19,12 @@
         i= start_from;
         start=1;
         records.forEach(function(row,index){
-          
        %>
        <tr>
         <td class='text-center' data-title='Sr. No.'> <%= (i+start) %> </td>
         <td data-title='Project' class='text-black'> <%= row.project_title %> </td>
         <td data-title='Project Url'> <%= row.project_url %> </td>
-        <td data-title='Snapshot'> <img src="/uploads/<%= row.porject_image %>" style="width:100%; height:150px;"/></td>
+        <td data-title='Snapshot'> <img src="<%= row.porject_image %>" style="width:100%; height:150px;"/></td>
         <td data-title='Created Date'> <%= moment(row.createdOn).format( 'DD-MMM-YYYY') %> </td>
         <td data-title='Status'>  
           <% if(row.project_status=="Disable") { %>

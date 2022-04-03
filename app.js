@@ -11,6 +11,7 @@ var myBlogsRouter = require('./routes/my-blogs');
 var myProjectsRouter = require('./routes/my-projects');
 var signupRouter = require('./routes/signup');
 var signinRouter = require('./routes/signin');
+const cors = require("cors");
 
 // connect database
 dbConnect();
@@ -26,6 +27,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+
 
 // Intialize Session 
 app.use(session({

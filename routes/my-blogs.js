@@ -1,8 +1,8 @@
 var express = require('express');
 var moment = require('moment');
 var router = express.Router();
-var multer = require('multer');
-var path = require('path');
+var cloudinary = require("../utils/uploadCloudinary");
+var uploadBlog = require("../utils/multer");
 var blogCatModel = require('../models/blog_categories')
 var blogModel = require('../models/blogs');
 var jwt = require('jsonwebtoken');
@@ -103,27 +103,16 @@ router.get('/add-blogs',checkLoginUser, function(req, res, next) {
       res.render('add-blog', { title: 'My Blogs',records: data});
     });
 });
-/* Blog image upload */
-router.use(express.static(__dirname+"./public/"));
-const imageStorage = multer.diskStorage({
-  // Destination to store image     
-  destination: "./public/uploads/",
-  filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now() 
-           + path.extname(file.originalname))
-          // file.fieldname is name of the field (image)
-          // path.extname get the uploaded file extension
-  }
-});
-var upload = multer({
-  storage:imageStorage
-}).single("BlogImg");
+
  /* Post Add Blog  */
-  router.post('/add-blogs',upload,function(req, res, next) {
+  router.post('/add-blogs',uploadBlog.single("BlogImg"), async (req, res) => {
+   try{
+    const addBlogImg = await cloudinary.uploader.upload(req.file.path);
     const BlogDetails =new blogModel({
     blog_title: req.body.BlogTitle,
     blog_category: req.body.BlogCategory,
-    blog_image: req.file.filename,
+    blog_image: addBlogImg.secure_url,
+    cloudinary_id: addBlogImg.public_id,
     blog_description: req.body.blogDescription,
     });
     BlogDetails.save(function(err,doc){
@@ -133,6 +122,11 @@ var upload = multer({
         res.json({msg:'success'});  
       }  
     })
+  
+  }catch (err) {
+    console.log(err);
+  }
+
   });
   
   /* Edit Blogs */
@@ -155,9 +149,14 @@ var upload = multer({
    }); 
   });
   
-  router.post('/edit-blog',upload,function(req, res, next) {
+  router.post('/edit-blog',uploadBlog.single("BlogImg"), async (req, res) => {
+    try{
     if(req.file){
-      var UpdateDetails= blogModel.findByIdAndUpdate(req.body.id,{blog_title:req.body.BlogTitle,blog_category:req.body.BlogCategory,blog_image:req.file.filename,blog_description:req.body.description});
+        let exBlogImage = await blogModel.findById(req.body.id);
+      // Delete image from cloudinary
+        await cloudinary.uploader.destroy(exBlogImage.cloudinary_id);
+        var editBlogImg = await cloudinary.uploader.upload(req.file.path);
+        var UpdateDetails= blogModel.findByIdAndUpdate(req.body.id,{blog_title:req.body.BlogTitle,blog_category:req.body.BlogCategory,blog_image:editBlogImg.secure_url,cloudinary_id: editBlogImg.cloudinary_id, blog_description:req.body.description});
     }else{
       var UpdateDetails= blogModel.findByIdAndUpdate(req.body.id,{blog_title:req.body.BlogTitle,blog_category:req.body.BlogCategory,blog_description:req.body.description});
     }
@@ -168,6 +167,9 @@ var upload = multer({
         res.json({msg:'success'});  
       }  
     })
+    } catch (err) {
+     console.log(err);
+   }
   });
   
   /* Delete Blogs */

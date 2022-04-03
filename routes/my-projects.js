@@ -1,8 +1,8 @@
 var express = require('express');
 var moment = require('moment');
 var router = express.Router();
-var multer = require('multer');
-var path = require('path');
+var cloudinary = require("../utils/uploadCloudinary");
+var uploadProject = require("../utils/multer");
 var projectModel = require('../models/projects');
 var jwt = require('jsonwebtoken');
 
@@ -121,29 +121,34 @@ router.get('/add-project',checkLoginUser, function(req, res, next) {
     res.render('add-project', { title: 'My Projects'});
 });
   
-/* Project image upload */
-router.use(express.static(__dirname+"./public/"));
-const imageStorage = multer.diskStorage({
-  // Destination to store image     
-  destination: "./public/uploads/",
-  filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now() 
-           + path.extname(file.originalname))
-          // file.fieldname is name of the field (image)
-          // path.extname get the uploaded file extension
-  }
-});
+/* Project image upload in Folder */
+// router.use(express.static(__dirname+"./public/"));
+// const imageStorage = multer.diskStorage({
+//   // Destination to store image     
+//   destination: "./public/uploads/",
+//   filename: (req, file, cb) => {
+//         cb(null, file.fieldname + '_' + Date.now() 
+//            + path.extname(file.originalname))
+//           // file.fieldname is name of the field (image)
+//           // path.extname get the uploaded file extension
+//   }
+// });
+// var upload = multer({
+//   storage:imageStorage
+// }).single("ProjectImage");
 
-var upload = multer({
-  storage:imageStorage
-}).single("ProjectImage");
 
   /* Post Add Blog  */
-  router.post('/add-projects',upload,function(req, res, next) {
+   router.post('/add-projects',uploadProject.single("ProjectImage"), async (req, res) => {
+    try {
+    // Upload image to cloudinary
+    const addProjImg = await cloudinary.uploader.upload(req.file.path);
     const ProjectDetails =new projectModel({
     project_title: req.body.ProjectTitle,
     project_url: req.body.ProjectUrl,
-    porject_image: req.file.filename,
+    // porject_image: req.file.filename,
+    porject_image: addProjImg.secure_url,
+    cloudinary_id: addProjImg.public_id,
     });
     ProjectDetails.save(function(err,doc){
       if(err){  
@@ -152,6 +157,9 @@ var upload = multer({
         res.json({msg:'success'});  
       }  
     })
+   } catch (err) {
+    console.log(err);
+  }
      
   });
   
@@ -172,9 +180,14 @@ var upload = multer({
     });
   });
   
-  router.post('/edit-project',upload,function(req, res, next) {
+  router.post('/edit-project',uploadProject.single("ProjectImage"),async (req, res) => {
+    try{
     if(req.file){
-      var UpdateDetails= projectModel.findByIdAndUpdate(req.body.id,{project_title:req.body.ProjectTitle,project_url:req.body.ProjectUrl,porject_image:req.file.filename});
+      let exImage = await projectModel.findById(req.body.id);
+    // Delete image from cloudinary
+      await cloudinary.uploader.destroy(exImage.cloudinary_id);
+      var editProjImg = await cloudinary.uploader.upload(req.file.path);
+      var UpdateDetails= projectModel.findByIdAndUpdate(req.body.id,{project_title:req.body.ProjectTitle,project_url:req.body.ProjectUrl,porject_image:editProjImg.secure_url,cloudinary_id: editProjImg.cloudinary_id});
     }else{
       var UpdateDetails= projectModel.findByIdAndUpdate(req.body.id,{project_title:req.body.ProjectTitle,project_url:req.body.ProjectUrl});
     }
@@ -185,6 +198,10 @@ var upload = multer({
         res.json({msg:'success'});  
       }  
     })
+  } catch (err) {
+    console.log(err);
+  }
+     
   });
   
   /* Delete Blogs */

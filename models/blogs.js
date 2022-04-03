@@ -17,6 +17,9 @@ const blogSchema = new mongoose.Schema({
         required: true
         //default: 'no-photo.jpg'
     },
+    cloudinary_id:{
+        type: String,
+    },
     blog_description:{
         type: String
     },

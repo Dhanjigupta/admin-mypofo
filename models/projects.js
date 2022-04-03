@@ -14,8 +14,9 @@ const projectSchema = new mongoose.Schema({
     },
     porject_image:{
         type: String,
-        required: true,
-        default: 'no-photo.jpg'
+    },
+    cloudinary_id:{
+        type: String,
     },
     project_status:{
         type:String,

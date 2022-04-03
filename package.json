@@ -4,13 +4,16 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
- },
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "ckeditor": "^4.12.1",
+    "cloudinary": "^1.29.0",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
+    "dotenv": "^16.0.0",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-session": "^1.17.2",
